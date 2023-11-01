@@ -12,8 +12,8 @@ jobs:
     # Environment Variable at job Level
     env: 
         MONGODB_CLUSTER_ADDRESS: cluster0.dxag2nq.mongodb.net
-        MONGODB_USERNAME: mydbtlearning1
-        MONGODB_PASSWORD: 3nBYCrMfl1Vwp8Du
+        MONGODB_USERNAME: ${{ secret.MONGODB_USERNAME }}
+        MONGODB_PASSWORD: ${{ secret.MONGODB_PASSWORD }}
         PORT: 8080
     runs-on: ubuntu-latest
     steps:
@@ -27,11 +27,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        # Using the environment variable 
+        # Using the job env variable 
         run: npm start & npx wait-on http://127.0.0.1:$PORT
       - name: Run tests
         run: npm test
       - name: Output information
+        # Accessing Job Env Variable
         run: |
           echo "Accessing Way 1: MONGODB_USERNAME: $MONGODB_USERNAME"
           echo "Accessing Way 2: MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
@@ -40,6 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Output information
+        # Accessing Job Env Variable in another job
+        # Accessing Workflow Env Variable
         run: |        
-           echo "Job Env Variable: MONGODB_USERNAME: ${{ env.MONGODB_USERNAME }}"
+           echo "Job Env Variable: MONGODB_USERNAME: $MONGODB_DB_NAME"
            echo "Workflow Env Variable: MONGODB_DB_NAME: ${{ env.MONGODB_DB_NAME }}"
