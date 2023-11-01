@@ -9,6 +9,7 @@ env:
   MONGODB_DB_NAME: gha-demo
 jobs:
   test:
+    environment: testing
     # Environment Variable at job Level
     env: 
         MONGODB_CLUSTER_ADDRESS: cluster0.dxag2nq.mongodb.net
